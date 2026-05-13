@@ -2,6 +2,9 @@
 import OpenAI from 'openai';
 import { db } from '../../db/memory.js';
 
+const GEMINI_EMBED_MODEL = 'gemini-embedding-001';
+const GEMINI_CHAT_MODEL = 'gemini-2.5-flash';
+
 // ── OpenAI client ─────────────────────────────────────────────────────
 function getOpenAIClient(): OpenAI {
   const key = db.getAIConfig().openaiKey;
@@ -13,11 +16,15 @@ function getOpenAIClient(): OpenAI {
 async function geminiEmbed(text: string): Promise<number[]> {
   const key = db.getAIConfig().geminiKey;
   if (!key) throw new Error('Gemini API key not configured. Please set it in the Admin panel.');
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004:embedContent?key=${key}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_EMBED_MODEL}:embedContent`;
   const res = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: 'models/text-embedding-004', content: { parts: [{ text }] } }),
+    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
+    body: JSON.stringify({
+      model: `models/${GEMINI_EMBED_MODEL}`,
+      content: { parts: [{ text }] },
+      taskType: 'RETRIEVAL_DOCUMENT',
+    }),
   });
   if (!res.ok) {
     const err = await res.text();
@@ -60,10 +67,10 @@ export async function chatComplete(systemPrompt: string, userPrompt: string): Pr
 
   if (provider === 'gemini') {
     if (!geminiKey) throw new Error('Gemini API key not configured.');
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_CHAT_MODEL}:generateContent`;
     const res = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': geminiKey },
       body: JSON.stringify({
         system_instruction: { parts: [{ text: systemPrompt }] },
         contents: [{ role: 'user', parts: [{ text: userPrompt }] }],

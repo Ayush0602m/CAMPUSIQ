@@ -18,6 +18,8 @@ function tryRequire<T>(modulePath: string): T | null {
 type BabelPluginFactory = (...args: unknown[]) => unknown;
 type VitePluginFactory = (...args: unknown[]) => Plugin;
 
+const serverExternalDeps = ["pdf-parse", "openai", "multer", "bcryptjs", "jsonwebtoken"];
+
 const sourceMapperModule = tryRequire<{ default?: BabelPluginFactory }>("./source-mapper/src/index");
 const devToolsModule = tryRequire<{ devToolsPlugin?: VitePluginFactory }>("./dev-tools/src/vite-plugin");
 const fullStoryModule = tryRequire<{ fullStoryPlugin?: VitePluginFactory }>("./fullstory-plugin");
@@ -56,6 +58,7 @@ function serverBundlePlugin(): Plugin {
 				format: "esm",
 				outfile: path.resolve(__dirname, "dist", "server.bundle.mjs"),
 				packages: "bundle",
+				external: serverExternalDeps,
 				sourcemap: true,
 				banner: {
 					js: `import { createRequire } from 'module';
@@ -129,6 +132,11 @@ export default defineConfig(({ mode }) => ({
 
 	optimizeDeps: {
 		include: ["react", "react-dom", "react-router-dom"],
+		exclude: serverExternalDeps,
+	},
+
+	ssr: {
+		external: serverExternalDeps,
 	},
 
 	server: {

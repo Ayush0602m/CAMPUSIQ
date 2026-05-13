@@ -406,7 +406,7 @@ export default function AdminPage() {
                   )}
                 </form>
                 <p className="text-xs text-muted-foreground">
-                  Uses <strong>Gemini 2.5 Flash</strong> for chat and <strong>text-embedding-004</strong> for document indexing.
+                  Uses <strong>Gemini 2.5 Flash</strong> for chat and <strong>gemini-embedding-001</strong> for document indexing.
                 </p>
               </TabsContent>
             </Tabs>

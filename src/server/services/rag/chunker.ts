@@ -7,12 +7,12 @@ export interface Chunk {
 /**
  * Chunks text into overlapping segments for better context retrieval
  * @param text - The text to chunk
- * @param chunkSize - Target size of each chunk in characters (default: 1000)
+ * @param chunkSize - Target size of each chunk in characters (default: 2000)
  * @param overlap - Number of characters to overlap between chunks (default: 200)
  */
 export function chunkText(
   text: string,
-  chunkSize: number = 1000,
+  chunkSize: number = 2000,
   overlap: number = 200
 ): Chunk[] {
   // Clean and normalize text

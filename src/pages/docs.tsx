@@ -207,7 +207,7 @@ export default function DocsPage() {
                 {
                   step: '4',
                   title: 'Embedding generation',
-                  detail: 'Each chunk is converted into a numerical vector (embedding) using the configured AI provider — OpenAI text-embedding-3-small or Gemini text-embedding-004. These vectors capture semantic meaning.',
+                  detail: 'Each chunk is converted into a numerical vector (embedding) using the configured AI provider — OpenAI text-embedding-3-small or Gemini gemini-embedding-001. These vectors capture semantic meaning.',
                   icon: Sparkles,
                 },
                 {
@@ -358,7 +358,7 @@ export default function DocsPage() {
                   </div>
                   <div className="p-3 rounded-lg bg-muted/30 border border-border">
                     <p className="font-medium mb-1 flex items-center gap-1.5"><Zap className="h-3.5 w-3.5 text-blue-400" /> Google Gemini</p>
-                    <p className="text-xs text-muted-foreground mb-2">Uses Gemini 2.5 Flash for answers + text-embedding-004 for indexing. Free tier available.</p>
+                    <p className="text-xs text-muted-foreground mb-2">Uses Gemini 2.5 Flash for answers + gemini-embedding-001 for indexing. Free tier available.</p>
                     <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" className="text-xs text-primary hover:underline flex items-center gap-1">
                       Get key at aistudio.google.com <ArrowRight className="h-3 w-3" />
                     </a>
@@ -459,7 +459,7 @@ export default function DocsPage() {
                 <tbody className="divide-y divide-border/40">
                   {[
                     ['Chat model', 'GPT-4', 'Gemini 2.5 Flash'],
-                    ['Embedding model', 'text-embedding-3-small', 'text-embedding-004'],
+                    ['Embedding model', 'text-embedding-3-small', 'gemini-embedding-001'],
                     ['Embedding dimensions', '1536', '768'],
                     ['Free tier', '❌ Paid only', '✅ Free tier available'],
                     ['Key format', 'Starts with sk-', 'Starts with AIza'],
